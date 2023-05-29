@@ -69,8 +69,13 @@ function AuthForm() {
         router.push(protectedRoute)
         router.refresh()
       }
-    } catch (error) {
-      toast.error("Something went wrong!")
+    } catch (error: any) {
+      // if email is already taken
+      if (error?.response?.status === 409) {
+        toast.error("Email is already taken!")
+      } else {
+        toast.error("Something went wrong!")
+      }
     } finally {
       setIsLoading(false)
     }
