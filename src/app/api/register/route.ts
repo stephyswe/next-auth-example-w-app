@@ -3,9 +3,15 @@ import { NextResponse } from "next/server"
 
 import prisma from "@/lib/prisma"
 
+interface RequestBody {
+  name: string
+  email: string
+  password: string
+}
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body: RequestBody = await request.json()
 
     const { email, name, password } = body
 
@@ -13,13 +19,13 @@ export async function POST(request: Request) {
       return new NextResponse("Missing fields", { status: 400 })
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     const user = await prisma.user.create({
       data: {
         email,
         name,
-        password: hashedPassword,
+        hashedPassword,
       },
     })
 

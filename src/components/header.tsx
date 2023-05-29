@@ -104,6 +104,9 @@ const Nav = () => (
       <li className={styles.navItem}>
         <Link href="auth/me">Me</Link>
       </li>
+      <li className={styles.navItem}>
+        <Link href="auth/jwt">Jwt</Link>
+      </li>
     </ul>
   </nav>
 )
