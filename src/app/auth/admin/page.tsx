@@ -1,4 +1,14 @@
+"use client"
+
+import { useSession } from "next-auth/react"
+
 export default function Page() {
+  const session = useSession()
+
+  if (session?.data?.user?.role === "USER") {
+    return <p>You are an admin, welcome!</p>
+  }
+
   return (
     <>
       <h1>This page is protected by Middleware</h1>

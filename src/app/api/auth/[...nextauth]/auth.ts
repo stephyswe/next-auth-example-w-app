@@ -22,7 +22,7 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("http://localhost:3000/api/login", {
+        const res = await fetch("http://localhost:3000/api/login-default", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,14 +59,8 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (trigger === "update") {
-        return { ...token, ...session.user }
-      }
-      return { ...token, ...user }
-    },
     async session({ session, token }) {
-      session.user = token as any
+      session.user.role = "USER"
       return session
     },
   },
