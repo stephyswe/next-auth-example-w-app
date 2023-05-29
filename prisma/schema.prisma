@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id             Int       @id @default(autoincrement())
+  id             String    @id @default(uuid()) // Use uuid() as the default value for id
   name           String
   email          String    @unique
   emailVerified  DateTime?
@@ -26,7 +26,7 @@ model User {
 
 model Account {
   id                Int     @id @default(autoincrement())
-  userId            Int // Changed to Int type
+  userId            String // Changed to Int type
   type              String
   provider          String
   providerAccountId String
@@ -46,7 +46,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

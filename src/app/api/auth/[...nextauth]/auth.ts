@@ -54,9 +54,9 @@ export const authOptions: AuthOptions = {
           throw new Error("incorrect password")
         }
 
-        const { hashedPassword, createdAt, id, ...dbUserWithoutPassword } = user
+        const { hashedPassword, createdAt, ...dbUserWithoutPassword } = user
 
-        return dbUserWithoutPassword as User
+        return dbUserWithoutPassword
       },
     }),
     GoogleProvider({
