@@ -1,7 +1,6 @@
-import { AuthOptions } from "next-auth"
+import { AuthOptions, User } from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import bcrypt from "bcrypt"
-import { User as PrismaUser } from ".prisma/client" // Import the User type from the Prisma-generated client module
 
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
@@ -22,28 +21,42 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("http://localhost:3000/api/login-default", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
+        if (!credentials) {
+          throw new Error("no credentials")
+        }
+
+        if (!credentials.email) {
+          throw new Error("Invalid email")
+        }
+
+        if (!credentials.password) {
+          throw new Error("Invalid password")
+        }
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
         })
 
-        const user = await res.json()
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        if (!user) {
+          throw new Error("no user found")
         }
+
+        if (!user?.hashedPassword) {
+          throw new Error("no hashedPassword found")
+        }
+
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        )
+
+        if (!isCorrectPassword) {
+          throw new Error("incorrect password")
+        }
+
+        const { hashedPassword, createdAt, id, ...dbUserWithoutPassword } = user
+
+        return dbUserWithoutPassword as User
       },
     }),
     GoogleProvider({

@@ -64,7 +64,7 @@ function AuthForm() {
       })
 
       if (signInResponse?.error) {
-        toast.error("Invalid credentials!")
+        toast.error(signInResponse.error)
       } else {
         router.push(protectedRoute)
         router.refresh()
