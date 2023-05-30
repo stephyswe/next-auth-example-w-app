@@ -1,2 +1,2 @@
-export const signInRoute = "/signin"
+export const signInRoute = "/"
 export const defaultSignInRoute = "/api/auth/signin"

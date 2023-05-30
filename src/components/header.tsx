@@ -82,9 +82,6 @@ const Nav = () => (
         <Link href="/">Home</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href={signInRoute}>SignIn</Link>
-      </li>
-      <li className={styles.navItem}>
         <Link href="/client">Client</Link>
       </li>
       <li className={styles.navItem}>
