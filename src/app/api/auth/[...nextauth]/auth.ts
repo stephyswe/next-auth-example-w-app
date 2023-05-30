@@ -72,6 +72,15 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "github") {
+        return "/api/auth/callback/github"
+      }
+      return true
+    },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl
+    },
     async session({ session, token }) {
       session.user.role = "USER"
       return session
