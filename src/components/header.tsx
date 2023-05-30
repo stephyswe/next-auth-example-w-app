@@ -3,7 +3,7 @@
 import { signOut, useSession } from "next-auth/react"
 import styles from "./header.module.css"
 import Link from "next/link"
-import { defaultSignInRoute, signInRoute } from "../lib/constants"
+import { defaultSignInRoute } from "../lib/constants"
 
 interface SessionInfoProps {
   session: any
