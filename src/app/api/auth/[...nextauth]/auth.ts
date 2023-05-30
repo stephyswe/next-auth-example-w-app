@@ -66,6 +66,14 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      checks: [`nonce`],
+      authorization: {
+        params: {
+          redirect_uri: process.env.GITHUB_REDIRECT_URI,
+          scope: "read:user",
+          state: process.env.GITHUB_STATE,
+        },
+      },
     }),
   ],
   session: {
