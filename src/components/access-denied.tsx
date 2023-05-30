@@ -1,12 +1,14 @@
 import { signIn } from "next-auth/react"
 
+import { defaultSignInRoute } from "@/lib/constants"
+
 export default function AccessDenied() {
   return (
     <>
       <h1>Access Denied</h1>
       <p>
         <a
-          href="/api/auth/signin"
+          href={defaultSignInRoute}
           onClick={(e) => {
             e.preventDefault()
             signIn()

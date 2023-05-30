@@ -17,7 +17,7 @@ import {
 type Variant = "LOGIN" | "REGISTER"
 
 function AuthForm() {
-  const protectedRoute = "/auth/matcher"
+  const protectedRoute = "/matcher"
   const session = useSession()
   const router = useRouter()
 

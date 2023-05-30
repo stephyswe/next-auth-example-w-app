@@ -1,11 +1,12 @@
 import { withAuth } from "next-auth/middleware"
+import { signInRoute } from "./src/lib/constants"
 
 export default withAuth({
   pages: {
-    signIn: "/auth/signin",
+    signIn: signInRoute,
   },
 })
 
 export const config = {
-  matcher: ["/auth/matcher/:path*"],
+  matcher: ["/matcher/:path*"],
 }

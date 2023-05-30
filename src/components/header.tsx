@@ -3,6 +3,7 @@
 import { signOut, useSession } from "next-auth/react"
 import styles from "./header.module.css"
 import Link from "next/link"
+import { defaultSignInRoute, signInRoute } from "../lib/constants"
 
 interface SessionInfoProps {
   session: any
@@ -46,7 +47,7 @@ const SessionInfo: React.FC<SessionInfoProps> = ({ session }) => {
   return (
     <>
       <small>You are not signed in</small>
-      <a href="/api/auth/signin" className={styles.buttonPrimary}>
+      <a href={defaultSignInRoute} className={styles.buttonPrimary}>
         Sign in
       </a>
     </>
@@ -78,34 +79,34 @@ const Nav = () => (
   <nav>
     <ul className={styles.navItems}>
       <li className={styles.navItem}>
-        <Link href="/auth/">Home</Link>
+        <Link href="/">Home</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="/auth/signin">SignIn</Link>
+        <Link href={signInRoute}>SignIn</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/client">Client</Link>
+        <Link href="/client">Client</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/server">Server</Link>
+        <Link href="/server">Server</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/protected">Protected</Link>
+        <Link href="/protected">Protected</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/matcher">*Matcher</Link>
+        <Link href="/matcher">*Matcher</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/api-example">API</Link>
+        <Link href="/api-example">API</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/admin">Admin</Link>
+        <Link href="/admin">Admin</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/me">Me</Link>
+        <Link href="/me">Me</Link>
       </li>
       <li className={styles.navItem}>
-        <Link href="auth/jwt">Jwt</Link>
+        <Link href="/jwt">Jwt</Link>
       </li>
     </ul>
   </nav>

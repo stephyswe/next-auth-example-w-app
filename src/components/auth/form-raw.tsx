@@ -58,7 +58,6 @@ export default function CredentialsForm({ csrfToken }: CredentialsFormProps) {
       })
 
       if (signInResponse && signInResponse.error) {
-        console.log("signInResponse", signInResponse)
         setError("Invalid credentials")
       } else {
         router.push("/auth/protected")
