@@ -7,7 +7,6 @@ import GoogleProvider from "next-auth/providers/google"
 import GithubProvider from "next-auth/providers/github"
 
 import prisma from "@/lib/prisma"
-import axios from "axios"
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -67,50 +66,12 @@ export const authOptions: AuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      authorization: {
-        params: {
-          redirect_uri: process.env.GITHUB_REDIRECT_URI as string,
-        },
-      },
     }),
   ],
   session: {
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      console.log("is this ever called")
-      console.log("what is account provider", account?.provider)
-      if (account?.provider === "github") {
-        // Retrieve the authorization code from the URL query parameters
-        const { code } = account.params
-
-        try {
-          // Exchange the authorization code for an access token
-          const response = await axios.post(
-            "https://github.com/login/oauth/access_token",
-            {
-              code,
-              client_id: process.env.GITHUB_CLIENT_ID,
-              client_secret: process.env.GITHUB_CLIENT_SECRET,
-            }
-          )
-
-          // Parse the response to extract the access token
-          const accessToken = new URLSearchParams(response.data).get(
-            "access_token"
-          )
-
-          // Perform any additional logic with the access token if needed
-
-          console.log("GitHub authentication successful")
-        } catch (error) {
-          console.error("GitHub authentication failed", error)
-          throw new Error("GitHub authentication failed")
-        }
-      }
-      return true
-    },
     async session({ session, token }) {
       session.user.role = "USER"
       return session
